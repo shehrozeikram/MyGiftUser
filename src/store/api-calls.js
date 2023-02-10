@@ -4,6 +4,7 @@ import SERVICES from '../services/common-services';
 import API_REQUESTS from './api-requests';
 import {URLS} from './api-urls';
 import alertService from '../services/alert.service';
+
 const get_current_location = params => {
   return async (dispatch, getState) => {
     try {
@@ -143,7 +144,128 @@ const get_cards = () => {
     }
   };
 };
-
+const buy_card = payload => {
+  return async (dispatch, getState) => {
+    try {
+      payload = SERVICES._removeEmptyKeys(payload);
+      const response = await API_REQUESTS.postFormData(
+        URLS.cards.buy_card,
+        payload,
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const claim_card = () => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.putData(URLS.cards.claim_card, {});
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const fetch_rewards = user_id => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(
+        URLS.cards.fetch_rewards + user_id,
+      );
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_REWARDS,
+          payload: response?.data?.latest_rewards,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const fetch_claim_rewards = user_id => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(
+        URLS.cards.fetch_claim_rewards + user_id,
+      );
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_CLAIM_REWARDS,
+          payload: response?.data?.claim_rewards,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const fetch_transactions = user_id => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(
+        URLS.cards.fetch_transactions + user_id,
+      );
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_TRANSACTIONS,
+          payload: response?.data?.transactions,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const contact_us = payload => {
+  return async (dispatch, getState) => {
+    try {
+      payload = SERVICES._removeEmptyKeys(payload);
+      const response = await API_REQUESTS.postFormData(
+        URLS.store.contact_use,
+        payload,
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const fetch_stores = id => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(URLS.store.fetch_store + id);
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_STORES,
+          payload: response?.data?.stores,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const pay_at_store = (payload, store_id, user_id) => {
+  return async (dispatch, getState) => {
+    try {
+      payload = SERVICES._removeEmptyKeys(payload);
+      const response = await API_REQUESTS.postFormData(
+        URLS.store.pay_at_store +
+          'store_id=' +
+          store_id +
+          '&user_id=' +
+          user_id,
+        payload,
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+};
 const DIVIY_API = {
   get_current_location,
   signin,
@@ -152,6 +274,14 @@ const DIVIY_API = {
   register,
   update,
   get_cards,
+  buy_card,
+  claim_card,
+  fetch_rewards,
+  fetch_claim_rewards,
+  fetch_transactions,
+  contact_us,
+  fetch_stores,
+  pay_at_store,
 };
 
 export default DIVIY_API;

@@ -9,6 +9,10 @@ const INITIAL_STATE = {
   },
   current_location: {latitude: 0.73232, longitude: -0.323334},
   cards: [],
+  rewards: [],
+  claim_rewards: [],
+  transactions: [],
+  stores: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,6 +31,26 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cards: action.payload,
+      };
+    case Actions.SET_REWARDS:
+      return {
+        ...state,
+        rewards: action.payload,
+      };
+    case Actions.SET_CLAIM_REWARDS:
+      return {
+        ...state,
+        claim_rewards: action.payload,
+      };
+    case Actions.SET_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: action.payload,
+      };
+    case Actions.SET_STORES:
+      return {
+        ...state,
+        stores: action.payload,
       };
     default:
       return state;

@@ -12,5 +12,15 @@ export const URLS = {
   },
   cards: {
     get_cards: 'cards/fetch_cards?locale=en',
+    buy_card: 'cards/create_gift?locale=en',
+    claim_card: 'cards/claim_reward/?reward_id=',
+    fetch_rewards: 'cards/fetch_rewards?locale=en&user_id=',
+    fetch_claim_rewards: 'cards/fetch_claim_rewards?locale=en&user_id=',
+    fetch_transactions: 'cards/fetch_transactions?locale=en&user_id=',
+  },
+  store: {
+    contact_use: 'stores/contact_us?locale=en',
+    fetch_store: 'fetch_stores?locale=en&store_id=',
+    pay_at_store: 'stores/create_store_payment?locale=en&',
   },
 };
