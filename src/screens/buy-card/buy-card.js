@@ -1,6 +1,7 @@
 //import liraries
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {connect} from 'react-redux';
 import PrimaryButton from '../../components/buttons/button-primary';
@@ -11,24 +12,42 @@ import Light from '../../presentation/typography/light-text';
 import Regular from '../../presentation/typography/regular-text';
 import SemiBold from '../../presentation/typography/semibold-text';
 import alertService from '../../services/alert.service';
+import SERVICES from '../../services/common-services';
 import {mvs} from '../../services/metrices';
 import styles from './buy-card-styles';
 const BuyCard = props => {
-  const {route, otp} = props;
-  //   const{email}=route.params;
+  const {route, user_info} = props;
+  const {card} = route.params;
   const navigation = useNavigation();
-  const [value, setValue] = React.useState('');
-  const [isMatch, setIsMatch] = React.useState(true);
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [senderName, setsendName] = useState('');
+  const [image, setImage] = useState();
 
-  const verify = () => {
-    if (value == otp) {
-      navigation.navigate('ChangePassword', {new: false, email: email});
-    } else {
-      alertService.show('You Have Entered Incorrect Verification Code');
-      setIsMatch(false);
+  const sendGift = async () => {
+    if (phone?.length < 1) {
+      alertService.show('Please enter receiver phone number', 'Buy Gift');
+      return;
+    }
+    var payload = {
+      sender_name: senderName,
+      receiver_name: name,
+      receiver_phone_number: phone,
+      your_message: message,
+      user_id: user_info?.id,
+      card_id: card?.id,
+      attachments: image,
+    };
+    console.log('Payload is ===> ', payload);
+    navigation.navigate('PaymentMethod', {payload: payload});
+  };
+  const pickImage = async () => {
+    var res = await SERVICES._returnImageGallery();
+    if (res?.uri) {
+      setImage(res);
     }
   };
-
   return (
     <View style={{...styles.conntainer}}>
       <AppHeader title="Buy Card" />
@@ -40,12 +59,21 @@ const BuyCard = props => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}>
           <View>
-            <BuyCardComponent />
+            <BuyCardComponent
+              senderName={senderName}
+              onChangeSenderName={val => setsendName(val)}
+              receiverName={name}
+              onChangeReceiverName={val => setName(val)}
+              message={message}
+              onChangeMessage={val => setMessage(val)}
+              onChangeImage={() => pickImage()}
+              image={image}
+            />
           </View>
           <PrimaryInput
             placeHolder="Enter receiver phone number"
-            value={''}
-            onChange={val => {}}
+            value={phone}
+            onChange={val => setPhone(val)}
             onRightIconClick={() => {}}
             styleTextinput={{borderRadius: 30, padding: 0}}
             style={{borderRadius: 30, borderColor: '#DADADA', borderWidth: 1}}
@@ -64,7 +92,7 @@ const BuyCard = props => {
           </View>
           <PrimaryButton
             title={'Proceed to payment'}
-            onClick={() => navigation.navigate('PaymentMethod')}
+            onClick={() => sendGift()}
             style={{marginTop: mvs(19), marginBottom: mvs(60)}}
           />
         </ScrollView>

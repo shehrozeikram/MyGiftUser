@@ -22,7 +22,7 @@ const HomeScreenComponent = ({list = []}) => {
           <TouchableOpacity
             key={index}
             style={styles.container}
-            onPress={() => navigation.navigate('BuyCard')}>
+            onPress={() => navigation.navigate('BuyCard', {card: item})}>
             <ImageBackground
               source={{uri: IP + item?.attachments[0]?.url}}
               blurRadius={2}

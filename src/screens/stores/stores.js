@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, Image, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import {Store} from '../../assets/images';
@@ -9,9 +9,17 @@ import Regular from '../../presentation/typography/regular-text';
 import colors from '../../services/colors';
 import {mvs} from '../../services/metrices';
 import DIVIY_API from '../../store/api-calls';
+import {IP} from '../../store/api-urls';
 import styles from './styles';
 const Stores = props => {
-  const {navigation} = props;
+  const {navigation, fetch_stores, stores, user_info} = props;
+  useEffect(() => {
+    getData();
+    console.log('User info ===> ', user_info);
+  }, []);
+  const getData = async () => {
+    await fetch_stores();
+  };
   return (
     <View style={{...styles.container}}>
       <AppHeader title="Pay at Store" />
@@ -35,14 +43,16 @@ const Stores = props => {
               paddingHorizontal: mvs(2),
               paddingBottom: mvs(5),
             }}
-            data={[1, 2, 3, 4, 5, 6, 7, 89, 9, 10, 11, 12]}
+            data={stores}
             keyExtractor={item => item.id}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('PayAtStore')}
-                key={index + ' ' + item}
+                onPress={() => navigation.navigate('PayAtStore',{selected_store:item})}
                 style={{width: '33%'}}>
-                <Image source={Store} style={styles.image} />
+                <Image
+                  source={{uri: IP + item?.attachments[0]?.url}}
+                  style={styles.image}
+                />
               </TouchableOpacity>
             )}
           />
@@ -53,11 +63,11 @@ const Stores = props => {
 };
 
 const mapStateToProps = store => ({
-  notifications: store.state.notifications,
+  stores: store.state.stores,
   user_info: store.state.user_info,
 });
 
 const mapDispatchToProps = {
-  get_notifications: () => DIVIY_API.get_notifications(),
+  fetch_stores: () => DIVIY_API.fetch_stores(),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Stores);

@@ -30,10 +30,12 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.black,
     borderBottomWidth: 1.5,
     flex: 1,
-    fontSize: 10,
+    fontSize: 14,
     height: mvs(20),
     padding: 0,
     marginLeft: 6,
+    color: colors.black,
+    fontWeight: 'bold',
   },
 });
 export default styles;

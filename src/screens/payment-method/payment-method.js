@@ -1,6 +1,6 @@
 //import liraries
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {connect} from 'react-redux';
 import {True, VisaCard, Wallet} from '../../assets/svgs';
@@ -15,15 +15,39 @@ import Light from '../../presentation/typography/light-text';
 import Regular from '../../presentation/typography/regular-text';
 import SemiBold from '../../presentation/typography/semibold-text';
 import {mvs} from '../../services/metrices';
+import DIVIY_API from '../../store/api-calls';
 import styles from './payment-method-styles';
+import Spinner from 'react-native-loading-spinner-overlay';
+import colors from '../../services/colors';
+import alertService from '../../services/alert.service';
 const PaymentMethod = props => {
+  const {route, buy_card} = props;
+  const {payload} = route?.params;
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const [checkPay, setCheckPay] = React.useState(false);
   const [paymentSuccessfullyFlag, setPaymentSuccessfullyFlag] =
     React.useState(false);
+  const sendGift = async () => {
+    setLoading(true);
+    var res = await buy_card(payload);
+    setLoading(false);
+    if (res?.data?.api_status) {
+      setCheckPay(false);
+      setPaymentSuccessfullyFlag(true);
+    } else {
+      alertService.show('Receiver not exist', 'Buy Gift');
+    }
+  };
   return (
     <View style={{...styles.conntainer}}>
       <AppHeader title="Payment" />
+      <Spinner
+        visible={loading}
+        textContent={'Please Wait...'}
+        textStyle={{color: colors.primary}}
+        color={colors.primary}
+      />
       <View style={{alignSelf: 'center'}}>
         <Light
           label={'Select your payment method to proceed'}
@@ -124,10 +148,7 @@ const PaymentMethod = props => {
       <CheckPayment
         visible={checkPay}
         onOk={() => setCheckPay(false)}
-        onOk1={() => {
-          setCheckPay(false);
-          setPaymentSuccessfullyFlag(true);
-        }}
+        onOk1={() => sendGift()}
         onBackDrop={() => setCheckPay(false)}
       />
       <PaymentSuccessfully
@@ -147,5 +168,7 @@ const mapStateToProps = store => ({
   user_info: store.state.user_info,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  buy_card: payload => DIVIY_API.buy_card(payload),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentMethod);

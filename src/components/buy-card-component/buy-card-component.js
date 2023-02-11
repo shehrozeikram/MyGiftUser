@@ -9,14 +9,19 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {MyGift, MyGift2, Plus} from '../../assets/svgs';
 import PrimaryInput from '../input/primary-input';
 import Regular from '../../presentation/typography/regular-text';
-import { colors } from 'react-native-elements';
+import {colors} from 'react-native-elements';
 import Row from '../atoms/row';
 import Light from '../../presentation/typography/light-text';
+import {Image} from 'react-native';
 const BuyCardComponent = ({
-  title = 'Taco Salad',
-  subTitle = '88 Calories',
+  senderName,
+  onChangeSenderName,
+  message,
+  onChangeMessage,
+  receiverName,
+  onChangeReceiverName,
   image,
-  onClick,
+  onChangeImage,
 }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -29,50 +34,74 @@ const BuyCardComponent = ({
             borderRadius: 18,
             borderWidth: 3,
             borderColor: '#EDB82D',
-            padding:mvs(15)
+            padding: mvs(15),
           }}>
           <Row>
             <PrimaryInput
               placeHolder="Sender name"
-              value={''}
-              onChange={val => {}}
+              value={senderName}
+              onChange={onChangeSenderName}
               onRightIconClick={() => {}}
-              styleTextinput={{borderRadius:10,padding:0}}
-              style={{backgroundColor:'#BD7B10',width:mvs(170),borderRadius:10,height:mvs(33),borderColor:'#BD7B10'}}
+              styleTextinput={{borderRadius: 10, padding: 0}}
+              style={styles.sender}
               placeholderTextColor={'#00000050'}
             />
             <MyGift2 />
           </Row>
           <PrimaryInput
             placeHolder="Your message....."
-            value={''}
-            onChange={val => {}}
+            value={message}
+            onChange={onChangeMessage}
             numberOfLines={6}
             multiline={true}
             onRightIconClick={() => {}}
-            style={{backgroundColor:'#BD7B10',height:mvs(113),borderColor:'#BD7B10'}}
+            style={{
+              backgroundColor: '#BD7B10',
+              height: mvs(113),
+              borderColor: '#BD7B10',
+            }}
             placeholderTextColor={'#00000050'}
-            styleTextinput={{borderRadius:10,paddingTop:10,textAlignVertical: 'top'}}
+            styleTextinput={{
+              borderRadius: 10,
+              paddingTop: 10,
+              textAlignVertical: 'top',
+            }}
             lineHeight={23}
           />
-          <Row alignItems={'center'} style={{marginTop:mvs(20)}} >
-            <View style={{alignItems:'center'}}>
-            <View style={{backgroundColor:'#BD7B10',justifyContent:'center',alignItems:'center',padding:10,borderRadius:10}}>
-              <Plus />
-              <Regular label={'Add image'} size={10}  color={colors.white}/>
-            </View>
-            <Light label={'(Optional)'} size={8}  color={'#966E09'}/>
-            </View>
-            <View style={{paddingBottom:mvs(25)}}>
-            <PrimaryInput
-              placeHolder="Receiver name"
-              value={''}
-              onChange={val => {}}
-              onRightIconClick={() => {}}
-              styleTextinput={{borderRadius:10,padding:0}}
-              style={{backgroundColor:'#BD7B10',width:mvs(190),borderRadius:10,height:mvs(33),borderColor:'#BD7B10'}}
-              placeholderTextColor={'#00000050'}
-            />
+          <Row alignItems={'center'} style={{marginTop: mvs(20)}}>
+            <TouchableOpacity
+              onPress={onChangeImage}
+              style={{alignItems: 'center'}}>
+              {image?.uri ? (
+                <Image
+                  source={image}
+                  style={{height: mvs(60), width: mvs(80), borderRadius: 10}}
+                />
+              ) : (
+                <View
+                  style={{
+                    backgroundColor: '#BD7B10',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 10,
+                    borderRadius: 10,
+                  }}>
+                  <Plus />
+                  <Regular label={'Add image'} size={10} color={colors.white} />
+                </View>
+              )}
+              <Light label={'(Optional)'} size={8} color={'#966E09'} />
+            </TouchableOpacity>
+            <View style={{paddingBottom: mvs(25)}}>
+              <PrimaryInput
+                placeHolder="Receiver name"
+                value={receiverName}
+                onChange={onChangeReceiverName}
+                onRightIconClick={() => {}}
+                styleTextinput={{borderRadius: 10, padding: 0}}
+                style={styles.sender}
+                placeholderTextColor={'#00000050'}
+              />
             </View>
           </Row>
         </LinearGradient>
@@ -82,7 +111,7 @@ const BuyCardComponent = ({
 };
 const styles = StyleSheet.create({
   container: {
-    marginTop: mvs(4),    
+    marginTop: mvs(4),
   },
   image: {
     height: mvs(80),
@@ -92,6 +121,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Assistant',
+  },
+  sender: {
+    backgroundColor: '#BD7B10',
+    width: mvs(200),
+    borderRadius: 10,
+    height: mvs(33),
+    borderColor: '#BD7B10',
+    paddingLeft: 0,
   },
 });
 export default BuyCardComponent;

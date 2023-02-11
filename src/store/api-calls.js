@@ -233,10 +233,25 @@ const contact_us = payload => {
     }
   };
 };
-const fetch_stores = id => {
+const fetch_store = id => {
   return async (dispatch, getState) => {
     try {
       const response = await API_REQUESTS.getData(URLS.store.fetch_store + id);
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_STORE_DATA,
+          payload: response?.data?.stores,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
+const fetch_stores = () => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(URLS.store.fetch_stores);
       if (response?.data?.api_status === true) {
         dispatch({
           type: Actions.SET_STORES,
@@ -281,6 +296,7 @@ const DIVIY_API = {
   fetch_transactions,
   contact_us,
   fetch_stores,
+  fetch_store,
   pay_at_store,
 };
 

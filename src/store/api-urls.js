@@ -20,7 +20,8 @@ export const URLS = {
   },
   store: {
     contact_use: 'stores/contact_us?locale=en',
-    fetch_store: 'fetch_stores?locale=en&store_id=',
+    fetch_store: 'stores/fetch_stores?locale=en&store_id=',
+    fetch_stores: 'stores/fetch_stores?locale=en',
     pay_at_store: 'stores/create_store_payment?locale=en&',
   },
 };

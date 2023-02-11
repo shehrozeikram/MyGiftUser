@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   claim_rewards: [],
   transactions: [],
   stores: [],
+  store_data: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -51,6 +52,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         stores: action.payload,
+      };
+    case Actions.SET_STORE_DATA:
+      return {
+        ...state,
+        store_data: action.payload,
       };
     default:
       return state;
