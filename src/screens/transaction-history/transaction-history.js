@@ -12,19 +12,14 @@ import GiftModal from '../../components/modals/gift-modal';
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 // create a component
 const TransactionHistory = props => {
-  const {parcel_history, get_parcel_history, navigation} = props;
-  const [history] = useState([
-    {
-      date: '09 June 2022',
-      data: [{}, {}],
-    },
-  ]);
+  const {history, user_info, get_history} = props;
   const [showCalender, setShowCalender] = useState(false);
-  const [onSwtich, setSwtich] = useState(true);
   const [isFetched, setFetched] = useState(false);
-  useEffect(() => {}, []);
-  const getParcelHistory = async () => {
-    await get_parcel_history();
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = async () => {
+    await get_history(user_info?.id);
     setFetched(true);
   };
   return (
@@ -32,13 +27,13 @@ const TransactionHistory = props => {
       <AppHeader title="My Transactions" barStyle="dark-content" />
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <ShimmerPlaceholder
-          visible={!isFetched}
+          visible={isFetched}
           style={{flex: 1, width: '100%'}}>
           <View style={styles.body}>
-            {[1, 2, 3, 4, 5]?.map((item, index) => {
+            {history?.map((item, index) => {
               return (
                 <TransactionItem
-                  parcel={item}
+                  transaction={item}
                   key={index}
                   onClick={() => setShowCalender(true)}
                 />
@@ -56,11 +51,11 @@ const TransactionHistory = props => {
 };
 
 const mapStateToProps = store => ({
-  parcel_history: store.state.parcel_history,
+  history: store.state.transactions,
   user_info: store.state.user_info,
 });
 
 const mapDispatchToProps = {
-  get_parcel_history: () => DIVIY_API.get_parcel_history(),
+  get_history: id => DIVIY_API.fetch_transactions(id),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionHistory);

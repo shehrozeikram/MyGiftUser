@@ -5,3 +5,4 @@ export {default as Shop} from './shop.png';
 export {default as ProfileImage} from './profile.png';
 export {default as Store} from './store.png';
 export {default as Bd} from './bd.png';
+export {default as Card} from './card.png';

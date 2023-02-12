@@ -158,10 +158,13 @@ const buy_card = payload => {
     }
   };
 };
-const claim_card = () => {
+const claim_card = id => {
   return async (dispatch, getState) => {
     try {
-      const response = await API_REQUESTS.putData(URLS.cards.claim_card, {});
+      const response = await API_REQUESTS.putData(
+        URLS.cards.claim_card + id,
+        {},
+      );
       return response;
     } catch (error) {
       return error;

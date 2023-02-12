@@ -6,20 +6,30 @@ import SemiBold from '../../presentation/typography/semibold-text';
 import colors from '../../services/colors';
 import {mvs} from '../../services/metrices';
 import Row from '../atoms/row';
+import moment from 'moment';
 const TransactionItem = ({transaction = {}, onClick}) => {
+  // console.log('Transaction ==> ', transaction);
   return (
     <TouchableOpacity style={styles.container} onPress={onClick}>
       <Row style={{alignItems: 'center'}}>
         <Received />
         <SemiBold
-          label={'Birthday gift card'}
+          label={`${transaction?.title}`}
           size={14}
           color={colors.black}
           style={{flex: 1, marginLeft: mvs(20)}}
         />
         <View style={{alignItems: 'center'}}>
-          <Bold label={'+200SAR'} size={15} color={colors.green} />
-          <Bold label={'Aug 20'} size={14} color={colors.lightgrey1} />
+          <Bold
+            label={`+${transaction?.amount}SAR`}
+            size={15}
+            color={colors.green}
+          />
+          <Bold
+            label={`${moment(transaction?.send_date).format('MMM Do YY')}`}
+            size={14}
+            color={colors.lightgrey1}
+          />
         </View>
       </Row>
     </TouchableOpacity>

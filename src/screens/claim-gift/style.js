@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    paddingHorizontal: mvs(17),
+    paddingHorizontal: mvs(10),
     backgroundColor: colors.white,
   },
   topView: {
@@ -57,5 +57,28 @@ const styles = StyleSheet.create({
     height: mvs(230),
     width: mvs(290),
   },
+  symbol: {
+    position: 'absolute',
+    right: mvs(10),
+    top: mvs(20),
+  },
+  stars: {
+    position: 'absolute',
+    top: mvs(30),
+    left: mvs(30),
+  },
+  nameView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: mvs(25),
+  },
+  userView: {
+    //justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    paddingRight: mvs(23),
+    paddingBottom: mvs(25),
+  },
+  name: {},
 });
 export default styles;

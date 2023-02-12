@@ -71,10 +71,11 @@ export {default as Cross} from './cross.svg';
 export {default as MyGift} from './my-gift.svg';
 export {default as MyGift1} from './my-gift1.svg';
 export {default as MyGift2} from './my-gift2.svg';
-
+export {default as Gift} from './gift.svg';
 export {default as VisaCard} from './visaCard.svg';
 export {default as Wallet} from './wallet.svg';
 export {default as True} from './true.svg';
+export {default as Stars} from './stars.svg';
 
 export {default as Received} from './received.svg';
 export {default as SendGift} from './send-gift.svg';
@@ -83,4 +84,3 @@ export {default as RightCaret} from './right-caret.svg';
 export {default as TotalPayment} from './payment.svg';
 export {default as Successfully} from './successfully.svg';
 export {default as Birthday} from './birthday.svg';
-

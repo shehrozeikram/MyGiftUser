@@ -15,21 +15,12 @@ import DIVIY_API from '../../store/api-calls';
 import styles from './style';
 // create a component
 const Wallet = props => {
-  const {navigation, get_ratings, user_info} = props;
-  const [history] = useState([
-    {
-      date: '09 June 2022',
-      data: [{}, {}],
-    },
-  ]);
-  const [onSwtich, setSwtich] = useState(true);
-  const [isFetched, setFetched] = useState(false);
+  const {history, user_info, get_history} = props;
   useEffect(() => {
-    //getRatings();
+    getData();
   }, []);
-  const getRatings = async () => {
-    await get_ratings(user_info?.id);
-    setFetched(true);
+  const getData = async () => {
+    await get_history(user_info?.id);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -40,7 +31,7 @@ const Wallet = props => {
           style={{paddingHorizontal: mvs(20), marginVertical: mvs(25)}}>
           <View>
             <SemiBold
-              label={'Hello, Peter!'}
+              label={`Hello, ${user_info?.first_name}!`}
               size={24}
               color={colors.lightgrey2}
             />
@@ -95,10 +86,10 @@ const Wallet = props => {
             paddingHorizontal: mvs(5),
             paddingBottom: mvs(10),
           }}
-          data={[1, 2, 3, 4, 5, 6, 7, 89, 9, 10, 11, 12]}
+          data={history}
           keyExtractor={item => item.id}
           renderItem={({item, index}) => (
-            <TransactionItem parcel={item} key={index} />
+            <TransactionItem transaction={item} key={index} />
           )}
         />
       </View>
@@ -107,12 +98,11 @@ const Wallet = props => {
 };
 
 const mapStateToProps = store => ({
-  ratings: store.state.ratings,
+  history: store.state.transactions,
   user_info: store.state.user_info,
-  parcel_history: store.state.parcel_history,
 });
 
 const mapDispatchToProps = {
-  get_ratings: id => DIVIY_API.get_ratings(id),
+  get_history: id => DIVIY_API.fetch_transactions(id),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
