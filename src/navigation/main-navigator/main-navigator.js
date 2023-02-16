@@ -35,6 +35,7 @@ import ProfileScreen from '../../screens/profile-screen/profile-screen';
 import Wallet from '../../screens/wallet/wallet';
 import ClaimGift from '../../screens/claim-gift/claim-gift';
 import TabNavigator from '../tab-navigator/tab-navigator';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const Stack = createStackNavigator();
 const horizontalAnimation = {
   headerShown: false,
@@ -56,7 +57,7 @@ const horizontalAnimation = {
 };
 export const MainNavigator = () => {
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
       <Stack.Navigator
         initialRouteName="Splash"
@@ -95,6 +96,6 @@ export const MainNavigator = () => {
         />
         <Stack.Screen name="DrawerNavigator" component={TabNavigator} />
       </Stack.Navigator>
-    </View>
+    </SafeAreaView>
   );
 };
