@@ -50,7 +50,7 @@ const BuyCard = props => {
   };
   return (
     <View style={{...styles.conntainer}}>
-      <AppHeader title="Buy Card" />
+      <AppHeader title="Send Gift" />
       <View style={{alignSelf: 'center'}}>
         <Light label={'Edit card details by your own'} color={'#50555C'} />
       </View>

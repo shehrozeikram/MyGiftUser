@@ -25,7 +25,7 @@ const HomeScreen = props => {
     <View style={{...styles.conntainer}}>
       <AppHeader title="Choose your Card" />
       <View style={{alignSelf: 'center'}}>
-        <Light label={'Welcome back! Buy cards you like '} color={'#50555C'} />
+        <Light label={'Welcome back! send gifts you like '} color={'#50555C'} />
       </View>
       <View style={{paddingHorizontal: mvs(17)}}>
         <SemiBold label={'All Cards'} color={'#50555C'} />
