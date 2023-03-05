@@ -50,7 +50,7 @@ const PaymentMethod = props => {
       />
       <View style={{alignSelf: 'center'}}>
         <Light
-          label={'Select your payment method to proceed'}
+          label={'click on continue button to proceed'}
           color={'#50555C'}
         />
       </View>
@@ -58,18 +58,14 @@ const PaymentMethod = props => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}>
-          <Bold
-            label={'Select your payment method'}
-            color={'#50555C'}
-            size={22}
-          />
+          <Bold label={'Payment method'} color={'#50555C'} size={22} />
           <Row alignItems="center" style={styles.radio_button}>
-            <PrimaryRadioButton title="Wallet" isSelected={false} />
+            <PrimaryRadioButton title="Wallet" isSelected={true} />
             <View style={{paddingRight: mvs(23)}}>
               <Wallet />
             </View>
           </Row>
-          <Row alignItems="center" style={styles.radio_button}>
+          {/* <Row alignItems="center" style={styles.radio_button}>
             <PrimaryRadioButton title="Bank account" isSelected={false} />
             <View style={{paddingRight: mvs(23)}}>
               <VisaCard />
@@ -137,11 +133,14 @@ const PaymentMethod = props => {
                 style={{marginLeft: mvs(5), marginRight: mvs(72)}}
               />
             </Row>
-          </View>
+          </View> */}
           <PrimaryButton
             title={'Continue'}
             style={{marginTop: mvs(19), marginBottom: mvs(60)}}
-            onClick={() => setCheckPay(true)}
+            onClick={() => {
+              //setCheckPay(true);
+              sendGift();
+            }}
           />
         </ScrollView>
       </View>

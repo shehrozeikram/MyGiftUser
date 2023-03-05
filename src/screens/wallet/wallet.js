@@ -57,21 +57,21 @@ const Wallet = props => {
             size={mvs(14)}
           />
         </View>
+        <PrimaryButton
+          title="Pay at Store"
+          style={styles.button}
+          onClick={() => props?.navigation.navigate('Stores')}
+          titleStyle={styles.buttonText}
+        />
         <Row
           alignItems="center"
           style={{paddingHorizontal: mvs(30), marginVertical: mvs(10)}}>
-          <PrimaryButton
-            title="Pay at Store"
-            style={styles.button}
-            onClick={() => navigation.navigate('Stores')}
-            titleStyle={styles.buttonText}
-          />
-          <PrimaryButton
+          {/* <PrimaryButton
             title="Withdraw"
             style={styles.button}
             onClick={() => navigation.navigate('WithdrawRequest')}
             titleStyle={styles.buttonText}
-          />
+          /> */}
         </Row>
         <SemiBold
           label={'Latest Transactions'}

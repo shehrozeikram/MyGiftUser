@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderRadius: mvs(10),
   },
   button: {
-    width: '45%',
+    //width: '45%',
     backgroundColor: colors.white,
     elevation: mvs(4),
     borderRadius: mvs(10),
