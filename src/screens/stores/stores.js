@@ -12,17 +12,29 @@ import DIVIY_API from '../../store/api-calls';
 import {IP} from '../../store/api-urls';
 import styles from './styles';
 const Stores = props => {
-  const {navigation, fetch_stores, stores, user_info} = props;
+  const {
+    navigation,
+    fetch_stores,
+    stores,
+    user_info,
+    wallet,
+    fetch_wallet,
+    route,
+  } = props;
   useEffect(() => {
     getData();
     console.log('User info ===> ', user_info);
   }, []);
   const getData = async () => {
     await fetch_stores();
+    await fetch_wallet(user_info?.id);
   };
+  console.log('Wallet is ', wallet);
   return (
     <View style={{...styles.container}}>
-      <AppHeader title="Pay at Store" />
+      <AppHeader
+        title={route?.params?.withdraw ? 'Withdraw from Store' : 'Pay at Store'}
+      />
       <Regular
         label={'Select any store to send your payment'}
         size={12}
@@ -30,7 +42,10 @@ const Stores = props => {
         style={{marginTop: mvs(-10), alignSelf: 'center'}}
       />
       <View style={{paddingHorizontal: mvs(50), paddingVertical: mvs(30)}}>
-        <AvailableBalance bgColor={colors.primary} />
+        <AvailableBalance
+          bgColor={colors.primary}
+          balance={wallet?.user_balance ? wallet?.user_balance : 0}
+        />
       </View>
       <View style={styles.body}>
         <Bold label={'Available Stores'} size={20} color={colors.primary} />
@@ -47,7 +62,12 @@ const Stores = props => {
             keyExtractor={item => item.id}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('PayAtStore',{selected_store:item})}
+                onPress={() =>
+                  navigation.navigate(
+                    route?.params?.withdraw ? 'WithdrawRequest' : 'PayAtStore',
+                    {selected_store: item},
+                  )
+                }
                 style={{width: '33%'}}>
                 <Image
                   source={{uri: IP + item?.attachments[0]?.url}}
@@ -65,9 +85,11 @@ const Stores = props => {
 const mapStateToProps = store => ({
   stores: store.state.stores,
   user_info: store.state.user_info,
+  wallet: store.state.wallet,
 });
 
 const mapDispatchToProps = {
   fetch_stores: () => DIVIY_API.fetch_stores(),
+  fetch_wallet: userId => DIVIY_API.fetch_wallet(userId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Stores);

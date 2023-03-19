@@ -17,11 +17,13 @@ export const URLS = {
     fetch_rewards: 'cards/fetch_rewards?locale=en&user_id=',
     fetch_claim_rewards: 'cards/fetch_claim_rewards?locale=en&user_id=',
     fetch_transactions: 'cards/fetch_transactions?locale=en&user_id=',
+    fetch_balance: 'cards/fetch_user_wallet?locale=en&user_id=',
   },
   store: {
     contact_use: 'stores/contact_us?locale=en',
     fetch_store: 'stores/fetch_stores?locale=en&store_id=',
     fetch_stores: 'stores/fetch_stores?locale=en',
     pay_at_store: 'stores/create_store_payment?locale=en&',
+    create_withdraw: 'stores/create_withdraw?locale=en',
   },
 };

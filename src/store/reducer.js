@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   transactions: [],
   stores: [],
   store_data: {},
+  wallet: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -57,6 +58,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         store_data: action.payload,
+      };
+    case Actions.SET_WALLET:
+      return {
+        ...state,
+        wallet: action.payload,
       };
     default:
       return state;

@@ -38,6 +38,7 @@ const ClaimGift = props => {
     rewards,
     claim_card,
     user_info,
+    wallet,
   } = props;
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -84,6 +85,7 @@ const ClaimGift = props => {
                   height: mvs(55),
                   paddingVertical: mvs(7),
                 }}
+                balance={wallet?.user_balance ? wallet?.user_balance : 0}
               />
             </Row>
             <View style={styles.balance}>
@@ -198,6 +200,7 @@ const mapStateToProps = store => ({
   rewards: store.state.rewards,
   user_info: store.state.user_info,
   claim_rewards: store.state.claim_rewards,
+  wallet: store.state.wallet,
 });
 
 const mapDispatchToProps = {

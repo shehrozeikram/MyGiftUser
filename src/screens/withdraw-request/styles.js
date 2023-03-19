@@ -32,5 +32,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: {
+    height: mvs(100),
+    width: mvs(100),
+    borderRadius: mvs(5),
+    alignSelf: 'center',
+  },
 });
 export default styles;

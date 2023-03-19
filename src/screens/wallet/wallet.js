@@ -15,11 +15,12 @@ import DIVIY_API from '../../store/api-calls';
 import styles from './style';
 // create a component
 const Wallet = props => {
-  const {history, user_info, get_history} = props;
+  const {history, user_info, get_history, wallet, fetch_wallet} = props;
   useEffect(() => {
     getData();
   }, []);
   const getData = async () => {
+    await fetch_wallet(user_info?.id);
     await get_history(user_info?.id);
   };
   return (
@@ -44,7 +45,14 @@ const Wallet = props => {
           <Image source={ProfileImage} style={styles.image} />
         </Row>
         <View style={styles.balance}>
-          <Bold label={'350.79 SAR'} size={28} color={colors.primary} />
+          <Bold
+            label={
+              (wallet?.user_balance ? wallet?.user_balance : 0)?.toFixed(2) +
+              ' SAR'
+            }
+            size={28}
+            color={colors.primary}
+          />
           <Regular
             label={'Your remaining balance'}
             size={12}
@@ -57,27 +65,32 @@ const Wallet = props => {
             size={mvs(14)}
           />
         </View>
-        <PrimaryButton
-          title="Pay at Store"
-          style={styles.button}
-          onClick={() => props?.navigation.navigate('Stores')}
-          titleStyle={styles.buttonText}
-        />
+
         <Row
           alignItems="center"
           style={{paddingHorizontal: mvs(30), marginVertical: mvs(10)}}>
-          {/* <PrimaryButton
+          <PrimaryButton
+            title="Pay at Store"
+            style={styles.button}
+            onClick={() => props?.navigation.navigate('Stores')}
+            titleStyle={styles.buttonText}
+          />
+          <PrimaryButton
             title="Withdraw"
             style={styles.button}
-            onClick={() => navigation.navigate('WithdrawRequest')}
+            onClick={() =>
+              props?.navigation.navigate('Stores', {withdraw: true})
+            }
             titleStyle={styles.buttonText}
-          /> */}
+          />
         </Row>
-        <SemiBold
-          label={'Latest Transactions'}
-          size={18}
-          style={{marginTop: mvs(25)}}
-        />
+        {history?.length > 0 && (
+          <SemiBold
+            label={'Latest Transactions'}
+            size={18}
+            style={{marginTop: mvs(25)}}
+          />
+        )}
         <FlatList
           showsVerticalScrollIndicator={false}
           style={{marginTop: mvs(10)}}
@@ -100,9 +113,11 @@ const Wallet = props => {
 const mapStateToProps = store => ({
   history: store.state.transactions,
   user_info: store.state.user_info,
+  wallet: store.state.wallet,
 });
 
 const mapDispatchToProps = {
   get_history: id => DIVIY_API.fetch_transactions(id),
+  fetch_wallet: userId => DIVIY_API.fetch_wallet(userId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import AppHeader from '../../components/header/app-header';
@@ -9,9 +9,10 @@ import colors from '../../services/colors';
 import {mvs} from '../../services/metrices';
 import styles from './style';
 import {connect} from 'react-redux';
+import DIVIY_API from '../../store/api-calls';
 
 const ProfileScreen = props => {
-  const {navigation, user_info} = props;
+  const {navigation, user_info, wallet, fetch_wallet} = props;
   const profile = [
     {id: 1, title: 'My Transactions', action: 'TransactionHistory'},
     {id: 2, title: 'My Wallet', action: 'MyWallet'},
@@ -20,6 +21,9 @@ const ProfileScreen = props => {
     {id: 5, title: 'Edit Profile', action: 'EditProfile'},
     {id: 6, title: 'Contact Us', action: 'ContactUs'},
   ];
+  useEffect(() => {
+    fetch_wallet(user_info?.id);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
@@ -38,7 +42,10 @@ const ProfileScreen = props => {
             size={mvs(18)}
           />
           <Bold
-            label={'350.78SAR'}
+            label={
+              (wallet?.user_balance ? wallet?.user_balance : 0)?.toFixed(2) +
+              ' SAR'
+            }
             color={colors.primary}
             style={{...styles.name, marginTop: mvs(3)}}
             size={mvs(18)}
@@ -68,7 +75,10 @@ const ProfileScreen = props => {
 };
 const mapStateToProps = store => ({
   user_info: store.state.user_info,
+  wallet: store.state.wallet,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetch_wallet: userId => DIVIY_API.fetch_wallet(userId),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

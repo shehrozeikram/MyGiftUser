@@ -222,6 +222,23 @@ const fetch_transactions = user_id => {
     }
   };
 };
+const fetch_wallet = user_id => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(
+        URLS.cards.fetch_balance + user_id,
+      );
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_WALLET,
+          payload: response?.data,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
 const contact_us = payload => {
   return async (dispatch, getState) => {
     try {
@@ -284,6 +301,20 @@ const pay_at_store = (payload, store_id, user_id) => {
     }
   };
 };
+const create_withdraw = payload => {
+  return async (dispatch, getState) => {
+    try {
+      payload = SERVICES._removeEmptyKeys(payload);
+      const response = await API_REQUESTS.postFormData(
+        URLS.store.create_withdraw,
+        payload,
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+};
 const DIVIY_API = {
   get_current_location,
   signin,
@@ -301,6 +332,8 @@ const DIVIY_API = {
   fetch_stores,
   fetch_store,
   pay_at_store,
+  fetch_wallet,
+  create_withdraw,
 };
 
 export default DIVIY_API;

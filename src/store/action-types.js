@@ -7,3 +7,4 @@ export const SET_CLAIM_REWARDS = 'SET_CLAIM_REWARDS';
 export const SET_TRANSACTIONS = 'SET_TRANSACTIONS';
 export const SET_STORES = 'SET_STORES';
 export const SET_STORE_DATA = 'SET_STORE_DATA';
+export const SET_WALLET = 'SET_WALLET';
