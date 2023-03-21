@@ -3,8 +3,16 @@ import {
   SET_LICENSE,
   SET_USER_INFO,
   SET_VEHICLE,
+  SET_HEADERS,
 } from './action-types';
-
+const setHeadersInfo = payload => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: SET_HEADERS,
+      payload,
+    });
+  };
+};
 const setUserInfo = payload => {
   return (dispatch, getState) => {
     dispatch({
@@ -41,5 +49,6 @@ export const ACTIONS = {
   setUserInfo,
   setCurrentLocation,
   setLicense,
-  setVehicle
+  setVehicle,
+  setHeadersInfo,
 };

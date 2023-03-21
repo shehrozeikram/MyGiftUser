@@ -81,6 +81,16 @@ const signin = payload => {
           type: Actions.SET_USER_INFO,
           payload: response?.data?.user,
         });
+        if (response?.headers) {
+          dispatch({
+            type: Actions.SET_HEADERS,
+            payload: response?.headers,
+          });
+          await AsyncStorage.setItem(
+            '@headers',
+            JSON.stringify(response?.headers),
+          );
+        }
       }
       return response;
     } catch (error) {

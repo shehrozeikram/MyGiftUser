@@ -20,9 +20,11 @@ import styles from './profile.styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DIVIY_API from '../../store/api-calls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {URLS} from '../../store/api-urls';
+import axios from 'axios';
 // create a component
 const Profile = props => {
-  const {user_info, update} = props;
+  const {user_info, headers, setUser} = props;
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
   const [isLogout, setLogout] = useState(false);
@@ -40,18 +42,30 @@ const Profile = props => {
     contact_number: user_info?.contact_number,
     address: '',
   });
-  const pickImage = async side => {
-    const image = await SERVICES._returnImageGallery();
-    if (image == undefined) {
-      return;
-    }
-    if (side == 'front') {
-      setPayload({...payload, FrontSideIdCard: image});
-    } else if (side == 'back') {
-      setPayload({...payload, BackSideIdCard: image});
-    } else if (side == 'profile') {
-      setPayload({...payload, ProfilePicture: image});
-    }
+
+  const validate = email => {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    return reg.test(email);
+  };
+
+  const onLogoutClick = async () => {
+    setLogout(true);
+    setDescription('Are you sure you want to logout account?');
+    setShowCalender(true);
+  };
+  const onDeleteClick = async () => {
+    setLogout(false);
+    setDescription('Are you sure you want to delete your account?');
+    setShowCalender(true);
+  };
+  const onLogout = async () => {
+    await AsyncStorage.clear();
+    props?.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{name: 'Signin'}],
+      }),
+    );
   };
   const onUpdate = async () => {
     if (payload.first_name.length < 1) {
@@ -74,42 +88,58 @@ const Profile = props => {
       alertService.show('Confirm Password Not Matched', 'Update Account');
       return;
     }
-    setLoading(true);
-    var res = await update(payload);
-    setLoading(false);
-    if (res?.data) {
-      alertService.show('Account Updated Successfully!', 'Sign up');
-    } else if (res?.response?.data?.errors) {
-      alertService.show(res?.response?.data?.errors[0] + '', 'Update Account');
+    if (headers['access-token']) {
+      setLoading(true);
+      var config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `${URLS.base_url}${URLS.auth.update}`,
+        headers: {
+          uid: headers['uid'],
+          client: headers['client'],
+          'access-token': headers['access-token'],
+        },
+      };
+
+      axios(config)
+        .then(function (response) {
+          setLoading(false);
+          setUser(payload);
+          AsyncStorage.setItem('@user', JSON.stringify(payload));
+          alertService.show('Updated Sucessfully!', 'Profile');
+        })
+        .catch(function (error) {
+          setLoading(false);
+          alertService.show('Something went Wrong', 'Error');
+          console.log(error);
+        });
     }
   };
-  const validate = email => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    return reg.test(email);
-  };
-  const validate_password = password => {
-    const reg =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
-    return reg.test(password);
-  };
-  const onLogoutClick = async () => {
-    setLogout(true);
-    setDescription('Are you sure you want to logout account?');
-    setShowCalender(true);
-  };
-  const onDeleteClick = async () => {
-    setLogout(false);
-    setDescription('Are you sure you want to delete your account?');
-    setShowCalender(true);
-  };
-  const onLogout = async () => {
-    await AsyncStorage.clear();
-    props?.navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{name: 'Signin'}],
-      }),
-    );
+  const onDelete = async () => {
+    if (headers['access-token']) {
+      setLoading(true);
+      var config = {
+        method: 'delete',
+        maxBodyLength: Infinity,
+        url: `${URLS.base_url}${URLS.auth.delete}`,
+        headers: {
+          uid: headers['uid'],
+          client: headers['client'],
+          'access-token': headers['access-token'],
+        },
+      };
+
+      axios(config)
+        .then(function (response) {
+          setLoading(false);
+          onLogout();
+        })
+        .catch(function (error) {
+          setLoading(false);
+          alertService.show('Something went Wrong', 'Error');
+          console.log(error);
+        });
+    }
   };
   return (
     <View style={{...styles.container}}>
@@ -212,6 +242,7 @@ const Profile = props => {
         onCancel={() => setShowCalender(false)}
         onDelete={() => {
           setShowCalender(false);
+          onDelete();
         }}
         onLogout={() => {
           setShowCalender(false);
@@ -224,9 +255,10 @@ const Profile = props => {
 
 const mapStateToProps = store => ({
   user_info: store.state.user_info,
+  headers: store.state.headers,
 });
 
 const mapDispatchToProps = {
-  update: info => DIVIY_API.update(info),
+  setUser: info => ACTIONS.setUserInfo(info),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

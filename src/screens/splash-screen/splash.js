@@ -7,17 +7,18 @@ import {ACTIONS} from '../../store/actions';
 import {Splash_Styles as styles} from './splash-styles';
 
 const Splash = props => {
-  const {setUserInfo, navigation} = props;
+  const {setUserInfo, navigation, setHeadersInfo} = props;
   React.useEffect(() => {
     dnavigation = navigation;
     (async () => {
-      const token = await AsyncStorage.getItem('@token');
+      const hv = await AsyncStorage.getItem('@headers');
       const user = await AsyncStorage.getItem('@user');
       setTimeout(() => {
         if (!user) {
           navigation.replace('Signin');
         } else {
           setUserInfo(JSON.parse(user));
+          setHeadersInfo(JSON.parse(hv));
           navigation.replace('DrawerNavigator');
         }
       }, 3000);
@@ -37,5 +38,6 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = {
   setUserInfo: payload => ACTIONS.setUserInfo(payload),
+  setHeadersInfo: payload => ACTIONS.setHeadersInfo(payload),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Splash);

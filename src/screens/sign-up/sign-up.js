@@ -85,6 +85,15 @@ const SignUp = props => {
     if (res?.data?.user) {
       alertService.show('Account Created Successfully!', 'Sign up');
       navigation.navigate('Signin');
+    } else if (res?.data?.error?.contact_number) {
+      alertService.show(
+        `Contact number ${res?.data?.error?.contact_number[0]}!`,
+        'Sign up',
+      );
+    } else if (res?.data?.error?.email) {
+      alertService.show(`Email ${res?.data?.error?.email[0]}!`, 'Sign up');
+    } else {
+      alertService.show('Something went wrong!', 'Sign up');
     }
   };
   const validate = email => {

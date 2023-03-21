@@ -9,6 +9,7 @@ export const URLS = {
     update: 'user?locale=en',
     reset_password: 'users/password.json?locale=en',
     forgot_password: 'users/password.json?locale=en',
+    delete: 'users/sign_out.json?locale=en',
   },
   cards: {
     get_cards: 'cards/fetch_cards?locale=en',
