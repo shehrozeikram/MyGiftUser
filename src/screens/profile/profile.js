@@ -41,6 +41,7 @@ const Profile = props => {
     confirm_password: '',
     contact_number: user_info?.contact_number,
     address: '',
+    id: user_info?.id,
   });
 
   const validate = email => {
