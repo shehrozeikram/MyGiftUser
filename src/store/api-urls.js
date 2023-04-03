@@ -10,6 +10,7 @@ export const URLS = {
     reset_password: 'users/password.json?locale=en',
     forgot_password: 'users/password.json?locale=en',
     delete: 'users/sign_out.json?locale=en',
+    fetch_users: 'business/fetch_user_list?q=',
   },
   cards: {
     get_cards: 'cards/fetch_cards?locale=en',

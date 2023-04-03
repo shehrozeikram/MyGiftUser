@@ -29,6 +29,7 @@ const PaymentMethod = props => {
   const [paymentSuccessfullyFlag, setPaymentSuccessfullyFlag] =
     React.useState(false);
   const sendGift = async () => {
+    console.log('Gift Payload is \n\n', payload);
     setLoading(true);
     var res = await buy_card(payload);
     setLoading(false);
@@ -36,7 +37,7 @@ const PaymentMethod = props => {
       setCheckPay(false);
       setPaymentSuccessfullyFlag(true);
     } else {
-      alertService.show('Receiver not exist', 'Buy Gift');
+      alertService.show('Receiver not exist', 'Send Gift');
     }
   };
   return (

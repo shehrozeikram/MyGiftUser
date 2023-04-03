@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   store_data: {},
   wallet: {},
   headers: {},
+  users: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -69,6 +70,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         headers: action.payload,
+      };
+    case Actions.SET_USERS:
+      return {
+        ...state,
+        users: action.payload,
       };
     default:
       return state;

@@ -325,6 +325,21 @@ const create_withdraw = payload => {
     }
   };
 };
+const fetch_users = q => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.getData(URLS.auth.fetch_users + q);
+      if (response?.data?.api_status === true) {
+        dispatch({
+          type: Actions.SET_USERS,
+          payload: response?.data?.users_list,
+        });
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+};
 const DIVIY_API = {
   get_current_location,
   signin,
@@ -344,6 +359,7 @@ const DIVIY_API = {
   pay_at_store,
   fetch_wallet,
   create_withdraw,
+  fetch_users,
 };
 
 export default DIVIY_API;
