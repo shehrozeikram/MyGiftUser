@@ -102,9 +102,9 @@ const BuyCard = props => {
       </View>
       <View style={{paddingHorizontal: mvs(17)}}>
         <PrimaryInput
-          placeHolder="Enter Descriptions (optional)"
+          placeHolder="Enter Description (optional)"
           value={message}
-          onChange={val => get(val)}
+          onChange={val => setMessage(val)}
           onRightIconClick={() => {}}
           styleTextinput={{borderRadius: 30, padding: 0}}
           style={{borderRadius: 30, borderColor: '#DADADA', borderWidth: 1}}

@@ -33,11 +33,16 @@ const PaymentMethod = props => {
     setLoading(true);
     var res = await buy_card(payload);
     setLoading(false);
+    console.log('Response is  ======> \n\n', res?.data);
     if (res?.data?.api_status) {
       setCheckPay(false);
       setPaymentSuccessfullyFlag(true);
     } else {
-      alertService.show('Receiver not exist', 'Send Gift');
+      if (res?.data?.error[0]) {
+        alertService.show(res?.data?.error[0], 'Send Gift');
+      } else {
+        alertService.show('Something went wrong!', 'Send Gift');
+      }
     }
   };
   return (

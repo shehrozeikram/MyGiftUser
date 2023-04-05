@@ -1,27 +1,23 @@
-import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 import React, {useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
+import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
-import DualText from '../../components/atoms/dual-text/dual-text';
 import Row from '../../components/atoms/row';
 import PrimaryButton from '../../components/buttons/button-primary';
 import AppHeader from '../../components/header/app-header';
 import PrimaryInput from '../../components/input/primary-input';
-import DatePickerModal from '../../components/modals/date-picker-modal';
 import PrimaryModal from '../../components/modals/primary-modal';
 import Regular from '../../presentation/typography/regular-text';
 import alertService from '../../services/alert.service';
 import colors from '../../services/colors';
-import SERVICES from '../../services/common-services';
 import {mvs} from '../../services/metrices';
 import {ACTIONS} from '../../store/actions';
-import {CommonActions} from '@react-navigation/native';
-import styles from './profile.styles';
-import Spinner from 'react-native-loading-spinner-overlay';
-import DIVIY_API from '../../store/api-calls';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {URLS} from '../../store/api-urls';
-import axios from 'axios';
+import styles from './profile.styles';
 // create a component
 const Profile = props => {
   const {user_info, headers, setUser} = props;
