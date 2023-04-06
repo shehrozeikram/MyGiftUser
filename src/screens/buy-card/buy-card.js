@@ -49,6 +49,10 @@ const BuyCard = props => {
       );
       return;
     }
+    if (message.length < 1) {
+      alertService.show('Please enter your message', 'Send Gift');
+      return;
+    }
     var payload = {
       sender_name: user_info?.first_name + ' ' + user_info?.last_name,
       receiver_name: selectedUser?.first_name + ' ' + selectedUser?.last_name,
@@ -102,7 +106,7 @@ const BuyCard = props => {
       </View>
       <View style={{paddingHorizontal: mvs(17)}}>
         <PrimaryInput
-          placeHolder="Enter Description (optional)"
+          placeHolder="Your Message"
           value={message}
           onChange={val => setMessage(val)}
           onRightIconClick={() => {}}
