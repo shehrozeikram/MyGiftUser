@@ -1,9 +1,9 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DualText from '../../components/atoms/dual-text/dual-text';
 import PrimaryButton from '../../components/buttons/button-primary';
 import AppHeader from '../../components/header/app-header';
@@ -13,12 +13,12 @@ import Regular from '../../presentation/typography/regular-text';
 import alertService from '../../services/alert.service';
 import colors from '../../services/colors';
 import SERVICES from '../../services/common-services';
-import {mvs} from '../../services/metrices';
+import { mvs } from '../../services/metrices';
 import DIVIY_API from '../../store/api-calls';
 import styles from './sign-up.styles';
 // create a component
 const SignUp = props => {
-  const {register} = props;
+  const { register } = props;
   const navigation = useNavigation();
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
@@ -40,11 +40,11 @@ const SignUp = props => {
       return;
     }
     if (side == 'front') {
-      setPayload({...payload, FrontSideIdCard: image});
+      setPayload({ ...payload, FrontSideIdCard: image });
     } else if (side == 'back') {
-      setPayload({...payload, BackSideIdCard: image});
+      setPayload({ ...payload, BackSideIdCard: image });
     } else if (side == 'profile') {
-      setPayload({...payload, ProfilePicture: image});
+      setPayload({ ...payload, ProfilePicture: image });
     }
   };
   const onRegister = async () => {
@@ -98,12 +98,12 @@ const SignUp = props => {
     return reg.test(email);
   };
   return (
-    <View style={{...styles.container}}>
+    <View style={{ ...styles.container }}>
       <AppHeader title="Create your account" />
       <Spinner
         visible={loading}
         textContent={'Please Wait...'}
-        textStyle={{color: colors.primary}}
+        textStyle={{ color: colors.primary }}
         color={colors.primary}
       />
       <Regular
@@ -111,11 +111,11 @@ const SignUp = props => {
         size={13}
         color={colors.lightgrey1}
         numberOfLines={2}
-        style={{alignSelf: 'center', width: mvs(290), textAlign: 'center'}}
+        style={{ alignSelf: 'center', width: mvs(290), textAlign: 'center' }}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.body}>
           <PrimaryInput
             label={'First Name'}
@@ -123,7 +123,7 @@ const SignUp = props => {
             placeHolder="First Name"
             leftIcon="User"
             bWidth={1}
-            onChange={val => setPayload({...payload, first_name: val})}
+            onChange={val => setPayload({ ...payload, first_name: val })}
           />
           <PrimaryInput
             label={'Last Name'}
@@ -131,7 +131,7 @@ const SignUp = props => {
             placeHolder="Last Name"
             leftIcon="User"
             bWidth={1}
-            onChange={val => setPayload({...payload, last_name: val})}
+            onChange={val => setPayload({ ...payload, last_name: val })}
           />
           <PrimaryInput
             label={'Email'}
@@ -139,7 +139,7 @@ const SignUp = props => {
             placeHolder="Email Address"
             leftIcon="BEmail"
             bWidth={1}
-            onChange={val => setPayload({...payload, email: val})}
+            onChange={val => setPayload({ ...payload, email: val })}
           />
 
           <PrimaryInput
@@ -147,7 +147,7 @@ const SignUp = props => {
             value={payload.contact_number}
             placeHolder="Phone Number"
             leftIcon="Phone"
-            onChange={val => setPayload({...payload, contact_number: val})}
+            onChange={val => setPayload({ ...payload, contact_number: val })}
             inputType={'phone-pad'}
           />
 
@@ -159,7 +159,7 @@ const SignUp = props => {
             rightIcon="Eye"
             isPassword={hidePassword}
             onRightIconClick={() => setHidePassword(!hidePassword)}
-            onChange={val => setPayload({...payload, password: val})}
+            onChange={val => setPayload({ ...payload, password: val })}
           />
 
           <PrimaryInput
@@ -172,21 +172,21 @@ const SignUp = props => {
             onRightIconClick={() =>
               setHideConfirmPassword(!hideConfirmPassword)
             }
-            onChange={val => setPayload({...payload, confirm_password: val})}
+            onChange={val => setPayload({ ...payload, confirm_password: val })}
           />
 
           <PrimaryButton
             title="Create Account"
-            style={{marginTop: mvs(40)}}
+            style={{ marginTop: mvs(40) }}
             onClick={() => onRegister()}
           />
 
           <TouchableOpacity
             onPress={() => navigation.navigate('Signin')}
-            style={{alignSelf: 'center', marginTop: mvs(28)}}>
+            style={{ alignSelf: 'center', marginTop: mvs(28) }}>
             <DualText
               content="Have an account? "
-              style={{fontSize: mvs(16), color: colors.black}}
+              style={{ fontSize: mvs(16), color: colors.black }}
               highlightText={'Sign in'}
             />
           </TouchableOpacity>
@@ -196,7 +196,7 @@ const SignUp = props => {
         visible={showCalender}
         onSelect={date => {
           setShowCalender(false);
-          setPayload({...payload, DateOfBirth: date});
+          setPayload({ ...payload, DateOfBirth: date });
         }}
       />
     </View>

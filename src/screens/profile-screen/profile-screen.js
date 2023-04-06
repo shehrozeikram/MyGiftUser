@@ -1,25 +1,25 @@
-import React, {useEffect} from 'react';
-import {Image, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import React, { useEffect } from 'react';
+import { Image, SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import AppHeader from '../../components/header/app-header';
-import {ProfileImage} from '../../assets/images';
+import { ProfileImage } from '../../assets/images';
 import ProfileItem from '../../components/gift-app/profile-item';
 import Bold from '../../presentation/typography/bold-text';
 import colors from '../../services/colors';
-import {mvs} from '../../services/metrices';
+import { mvs } from '../../services/metrices';
 import styles from './style';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DIVIY_API from '../../store/api-calls';
 
 const ProfileScreen = props => {
-  const {navigation, user_info, wallet, fetch_wallet} = props;
+  const { navigation, user_info, wallet, fetch_wallet } = props;
   const profile = [
-    {id: 1, title: 'My Transactions', action: 'TransactionHistory'},
-    {id: 2, title: 'My Wallet', action: 'MyWallet'},
-    {id: 3, title: 'My Rewards', action: 'MyRewards'},
-    {id: 4, title: 'Buy Gift Cards', action: 'GiftCards'},
-    {id: 5, title: 'Edit Profile', action: 'EditProfile'},
-    {id: 6, title: 'Contact Us', action: 'ContactUs'},
+    { id: 1, title: 'My Transactions', action: 'TransactionHistory' },
+    { id: 2, title: 'My Wallet', action: 'MyWallet' },
+    { id: 3, title: 'My Rewards', action: 'MyRewards' },
+    { id: 4, title: 'Buy Gift Cards', action: 'GiftCards' },
+    { id: 5, title: 'Edit Profile', action: 'EditProfile' },
+    { id: 6, title: 'Contact Us', action: 'ContactUs' },
   ];
   useEffect(() => {
     fetch_wallet(user_info?.id);
@@ -47,20 +47,20 @@ const ProfileScreen = props => {
               ' SAR'
             }
             color={colors.primary}
-            style={{...styles.name, marginTop: mvs(3)}}
+            style={{ ...styles.name, marginTop: mvs(3) }}
             size={mvs(18)}
           />
           <Bold
             label={'750 Points'}
             color={colors.green}
-            style={{...styles.name, marginTop: mvs(3)}}
+            style={{ ...styles.name, marginTop: mvs(3) }}
             size={mvs(12)}
           />
           <FlatList
-            style={{marginTop: mvs(15)}}
+            style={{ marginTop: mvs(15) }}
             data={profile}
             keyExtractor={item => item.id}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <ProfileItem
                 key={index}
                 title={item?.title}
